@@ -31,6 +31,7 @@ const url = require("url");
 //Server
 
 const replaceTemplate = (temp, product) => {
+  
   let output = temp
     .replace(/{%PRODUCTNAME%}/g, product.productName)
     .replace(/{%IMAGE%}/g, product.image)
@@ -55,10 +56,7 @@ let tempOverview = fs.readFileSync(
 );
 let tempCard = fs.readFileSync("./templates/template-card.html", "utf-8");
 
-let tempProduct = fs.readFileSync(
-  "./templates/template-overview.html",
-  "utf-8"
-);
+let tempProduct = fs.readFileSync("./templates/template-product.html", "utf-8");
 
 const server = http.createServer((req, res) => {
   console.log(req.url);
@@ -68,7 +66,6 @@ const server = http.createServer((req, res) => {
       .map((ele) => replaceTemplate(tempCard, ele))
       .join("");
     const output = tempOverview.replace("{%PRODUCT_CARDS%}", cardsHtml);
-    console.log(cardsHtml);
     res.writeHead(200, {
       "Content-type": "text/html",
     });
